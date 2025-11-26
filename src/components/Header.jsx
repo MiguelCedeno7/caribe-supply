@@ -55,20 +55,23 @@ export default function Header() {
 
       {/* MOBILE DROPDOWN */}
       {open && (
-        <div className="md:hidden bg-white shadow-lg px-6 py-4 space-y-4">
-          <Link href="/" onClick={() => setOpen(false)}>Inicio</Link>
-          <Link href="/tienda" onClick={() => setOpen(false)}>Tienda</Link>
-          <Link href="/nosotros" onClick={() => setOpen(false)}>Nosotros</Link>
-          <Link href="/ofertas" onClick={() => setOpen(false)}>Ofertas</Link>
-          <Link href="/contacto" onClick={() => setOpen(false)}>Contacto</Link>
+  <div className="md:hidden bg-white shadow-lg p-5 flex flex-col gap-4">
+    <nav className="flex flex-col gap-4 text-lg font-medium">
+      <a href="/" className="hover:text-orange-500">Inicio</a>
+      <a href="/tienda" className="hover:text-orange-500">Tienda</a>
+      <a href="/nosotros" className="hover:text-orange-500">Nosotros</a>
+      <a href="/ofertas" className="hover:text-orange-500">Ofertas</a>
+      <a href="/contacto" className="hover:text-orange-500">Contacto</a>
+    </nav>
 
-          <input
-            type="text"
-            placeholder="Buscar..."
-            className="border w-full px-3 py-2 rounded-lg"
-          />
-        </div>
-      )}
+    <input
+      type="text"
+      placeholder="Buscar..."
+      className="border rounded-lg px-4 py-2 w-full"
+    />
+  </div>
+)}
+  
     </header>
   );
 }
