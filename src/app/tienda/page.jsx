@@ -16,7 +16,7 @@ export default function TiendaPage() {
     <main className="max-w-7xl mx-auto px-6 py-10">
 
       <h1 className="text-4xl font-bold mb-8 text-center text-gray-900 p-14">
-         Nuestra Tienda
+         Nuestra Tiendo
       </h1>
 
       {/* FILTROS */}
