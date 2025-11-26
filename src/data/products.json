@@ -1,0 +1,142 @@
+[
+  {
+    "id": 1,
+    "name": "Cafetera Premium",
+    "price": 45,
+    "image": "/imagenes/banner.jpeg",
+    "category": "Microempresas"
+  },
+  {
+    "id": 2,
+    "name": "Auriculares Bluetooth",
+    "price": 25,
+    "image": "/imagenes/banner.jpeg",
+    "category": "Productos locales"
+  },
+  {
+    "id": 3,
+    "name": "Licuadora 3 velocidades",
+    "price": 38,
+    "image": "/imagenes/microempresa.webp",
+    "category": "Microempresas"
+  },
+  {
+    "id": 4,
+    "name": "Smartwatch Deportivo",
+    "price": 55,
+    "image": "",
+    "category": "Productos locales"
+  },
+  {
+    "id": 5,
+    "name": "Sartén Antiadherente",
+    "price": 18,
+    "image": "",
+    "category": "Artesania"
+  },
+  {
+    "id": 6,
+    "name": "Plancha de Vapor Pro",
+    "price": 30,
+    "image": "/imagenes/microempresa.webp",
+    "category": "Microempresas"
+  },
+  {
+    "id": 7,
+    "name": "Set de Cucharones de Silicona",
+    "price": 15,
+    "image": "",
+    "category": "Artesania"
+  },
+  {
+    "id": 8,
+    "name": "Audífonos Gamer RGB",
+    "price": 49,
+    "image": "",
+    "category": "Productos locales"
+  },
+  {
+    "id": 9,
+    "name": "Batidora de Mano",
+    "price": 22,
+    "image": "https://i.imgur.com/TtOnA2o.png",
+    "category": "Artesania"
+  },
+  {
+    "id": 10,
+    "name": "Cámara de Seguridad WiFi",
+    "price": 65,
+    "image": "https://i.imgur.com/AbEogdJ.png",
+    "category": "Productos locales"
+  },
+  {
+    "id": 11,
+    "name": "Set de Toallas Suaves",
+    "price": 28,
+    "image": "/imagenes/microempresa.webp",
+    "category": "Microempresas"
+  },
+  {
+    "id": 12,
+    "name": "Cuchillos de Artesania Premium",
+    "price": 35,
+    "image": "https://i.imgur.com/RhrCvzk.png",
+    "category": "Artesania"
+  },
+  {
+    "id": 13,
+    "name": "Reloj Inteligente Fitness",
+    "price": 42,
+    "image": "https://i.imgur.com/jg5pdi5.png",
+    "category": "Productos locales"
+  },
+  {
+    "id": 14,
+    "name": "Ventilador de Escritorio USB",
+    "price": 12,
+    "image": "/imagenes/microempresa.webp",
+    "category": "Microempresas"
+  },
+  {
+    "id": 15,
+    "name": "Termo Acero Inoxidable",
+    "price": 19,
+    "image": "",
+    "category": "Artesania"
+  },
+  {
+    "id": 16,
+    "name": "Mini Bocina Bluetooth",
+    "price": 27,
+    "image": "https://i.imgur.com/0tFtyiM.png",
+    "category": "Productos locales"
+  },
+  {
+    "id": 17,
+    "name": "Cortina Blackout",
+    "price": 34,
+    "image": "https://i.imgur.com/lBP7EXQ.png",
+    "category": "Microempresas"
+  },
+  {
+    "id": 18,
+    "name": "Freidora de Aire 4L",
+    "price": 78,
+    "image": "https://i.imgur.com/XLWSPTf.png",
+    "category": "Artesania"
+  },
+  {
+    "id": 19,
+    "name": "Cargador Rápido USB-C",
+    "price": 14,
+    "image": "https://i.imgur.com/CRUiNRU.png",
+    "category": "Productos locales"
+  },
+  {
+    "id": 20,
+    "name": "Juego de Sábanas Premium",
+    "price": 39,
+    "image": "https://i.imgur.com/bOoBkqQ.png",
+    "category": "Microempresas"
+  }
+]
