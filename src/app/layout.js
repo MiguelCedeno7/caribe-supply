@@ -1,6 +1,7 @@
 import "./globals.css";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import { AuthProvider } from "@/context/AuthContext";
 
 export const metadata = {
   title: "Caribe Supply",
@@ -11,9 +12,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="es">
       <body className="bg-gray-100">
-        <Header />
-        <main className="min-h-screen">{children}</main>
-        <Footer />
+        <AuthProvider>
+          <Header />
+          <main className="min-h-screen">{children}</main>
+          <Footer />
+        </AuthProvider>
       </body>
     </html>
   );
