@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link"; 
+import Link from "next/link";
 import { FiMenu, FiX } from "react-icons/fi";
 import useAuth from "@/hooks/useAuth";
 
@@ -10,6 +10,32 @@ export default function Header() {
   const [open, setOpen] = useState(false);
 
   const { user, logout } = useAuth();
+
+  //Tasa de Cambio
+  const [rates, setRates] = useState({
+    usd: null,
+    eur: null,
+    chf: null,
+    gbp: null,
+    jpy: null,
+    cad: null,
+  });
+  //Api tasa de cambio
+  useEffect(() => {
+    fetch("https://open.er-api.com/v6/latest/DOP")
+      .then(res => res.json())
+      .then(data => {
+        setRates({
+          usd: (1 / data.rates.USD).toFixed(2),
+          eur: (1 / data.rates.EUR).toFixed(2),
+          chf: (1 / data.rates.CHF).toFixed(2),
+          gbp: (1 / data.rates.GBP).toFixed(2),
+          jpy: (1 / data.rates.JPY).toFixed(2),
+          cad: (1 / data.rates.CAD).toFixed(2),
+        });
+      })
+      .catch(err => console.error(err));
+  }, []);
 
   // Detectar scroll para cambiar estilo del header
   useEffect(() => {
@@ -26,7 +52,7 @@ export default function Header() {
       `}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-        
+
         {/* LOGO */}
         <div className="text-2xl font-bold">
           <Link href="/">CaribeSupply</Link>
@@ -89,6 +115,18 @@ export default function Header() {
 
       </div>
 
+      {/* 🔶 CINTILLO DE TASAS DE CAMBIO */}
+      <div className="bg-orange-600 text-white py-0.5 overflow-hidden">
+        <div className="animate-marquee whitespace-nowrap text-sm font-medium">
+          {rates.usd && <span className="mx-6">💵 1 USD (Dólar) = <strong>{rates.usd} DOP</strong></span>}
+          {rates.eur && <span className="mx-6">💶 1 EUR (Euro) = <strong>{rates.eur} DOP</strong></span>}
+          {rates.chf && <span className="mx-6">💴 1 CHF (Franco Suizo) = <strong>{rates.chf} DOP</strong></span>}
+          {rates.gbp && <span className="mx-6">💷 1 GBP (Libra Esterlina) = <strong>{rates.gbp} DOP</strong></span>}
+          {rates.jpy && <span className="mx-6">💹 1 JPY (Yen) = <strong>{rates.jpy} DOP</strong></span>}
+          {rates.cad && <span className="mx-6">🇨🇦 1 CAD (Dólar Canadiense) = <strong>{rates.cad} DOP</strong></span>}
+        </div>
+      </div>
+
       {/* MOBILE DROPDOWN */}
       {open && (
         <div className="md:hidden bg-white shadow-lg p-5 flex flex-col gap-4">
@@ -137,7 +175,7 @@ export default function Header() {
 
         </div>
       )}
-  
+
     </header>
   );
 }

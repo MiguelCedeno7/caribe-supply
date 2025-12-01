@@ -8,7 +8,7 @@ export default function Hero() {
         <div className="w-96 h-96 bg-yellow-300 rounded-full blur-3xl absolute bottom-10 right-10"></div>
       </div>
 
-      <div className="relative max-w-6xl mx-auto flex flex-col md:flex-row items-center">
+      <div className="relative max-w-6xl mx-auto flex flex-col md:flex-row items-center pt-10">
         
         {/* Texto */}
         <div className="flex-1 text-center md:text-left z-10">
