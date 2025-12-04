@@ -1,23 +1,27 @@
+// app/login/page.jsx
 "use client";
 
 import { useState } from "react";
-import useAuth from "@/hooks/useAuth";
+import { useAuthContext } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login } = useAuth();
+  const { login } = useAuthContext(); // <-- usar el contexto expuesto por AuthProvider
   const router = useRouter();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const ok = login(email, password);
 
-    if (ok) {
+    // login devuelve { ok: boolean, message?: string }
+    const res = login(email.trim(), password);
+
+    if (res && res.ok) {
       router.push("/"); // redirige al inicio
     } else {
-      alert("Credenciales incorrectas");
+      alert(res?.message || "Credenciales incorrectas");
     }
   };
 
@@ -43,11 +47,12 @@ export default function LoginPage() {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-<a href="/reset-password" className="text-sm text-blue-600 hover:underline">
-  ¿Olvidaste tu contraseña?
-</a>
 
-        <button className="bg-orange-600 text-white py-2 rounded">
+        <Link href="/reset-password" className="text-sm text-blue-600 hover:underline">
+          ¿Olvidaste tu contraseña?
+        </Link>
+
+        <button className="bg-orange-600 text-white py-2 rounded" type="submit">
           Entrar
         </button>
       </form>

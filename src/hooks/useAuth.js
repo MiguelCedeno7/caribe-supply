@@ -1,12 +1,15 @@
+// hooks/useAuth.jsx
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 export default function useAuth() {
   const [user, setUser] = useState(null);
 
+  // lee desde localStorage (mejor que sessionStorage si quieres persistencia y 'storage' event)
   useEffect(() => {
-    const savedUser = sessionStorage.getItem("userEmail");
+    const savedUser = localStorage.getItem("userEmail") || sessionStorage.getItem("userEmail");
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (savedUser) setUser(savedUser);
   }, []);
 
@@ -19,11 +22,10 @@ export default function useAuth() {
 
     users.push({ email, password });
     localStorage.setItem("users", JSON.stringify(users));
-
     return { ok: true };
   };
 
-  const login = (email, password) => {
+  const login = (email, password, { persist = true } = {}) => {
     let users = JSON.parse(localStorage.getItem("users")) || [];
 
     const found = users.find(
@@ -34,34 +36,51 @@ export default function useAuth() {
 
     if (!found) return { ok: false, message: "Credenciales incorrectas" };
 
-    sessionStorage.setItem("userEmail", found.email);
+    // Guardar usuario: usamos localStorage para que storage-event funcione entre pestañas.
+    if (persist) localStorage.setItem("userEmail", found.email);
+    sessionStorage.setItem("userEmail", found.email); // para compatibilidad
     setUser(found.email);
+
     return { ok: true };
   };
 
   const logout = () => {
+    localStorage.removeItem("userEmail");
     sessionStorage.removeItem("userEmail");
     setUser(null);
   };
 
-  const resetPassword = (email, newPassword) => {
-  let users = JSON.parse(localStorage.getItem("users")) || [];
+  const resetPassword = (email, newPassword, { autoLogin = false } = {}) => {
+    let users = JSON.parse(localStorage.getItem("users")) || [];
 
-  const idx = users.findIndex(
-    (u) => u.email.toLowerCase() === email.toLowerCase()
-  );
+    const idx = users.findIndex(
+      (u) => u.email.toLowerCase() === email.toLowerCase()
+    );
 
-  if (idx === -1) {
-    return { ok: false, message: "No existe ese correo" };
-  }
+    if (idx === -1) {
+      return { ok: false, message: "No existe ese correo" };
+    }
 
-  users[idx].password = newPassword;
+    users[idx].password = newPassword;
+    localStorage.setItem("users", JSON.stringify(users));
 
-  localStorage.setItem("users", JSON.stringify(users));
+    // PRECACIÓN: no hacemos login automático a menos que el llamador pida autoLogin = true
+    if (autoLogin) {
+      // si piden autoLogin, actualizamos session/localStorage y state
+      localStorage.setItem("userEmail", users[idx].email);
+      sessionStorage.setItem("userEmail", users[idx].email);
+      setUser(users[idx].email);
+    }
 
-  return { ok: true };
-};
+    return { ok: true };
+  };
 
+  // función para forzar re-lectura desde storage (puede ser útil)
+  const syncFromStorage = useCallback(() => {
+    const savedUser = localStorage.getItem("userEmail") || sessionStorage.getItem("userEmail");
+    if (savedUser) setUser(savedUser);
+    else setUser(null);
+  }, []);
 
-  return { user, register, login, logout, resetPassword };
+  return { user, register, login, logout, resetPassword, syncFromStorage };
 }
