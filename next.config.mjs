@@ -1,7 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactCompiler: true,
-
+  reactCompiler: false,
+  experimental: {
+    optimizeCss: false, // Evita des-sincronización de estilos en SSR
+  },
   images: {
     remotePatterns: [
       {
@@ -12,4 +14,7 @@ const nextConfig = {
   },
 };
 
+
 export default nextConfig;
+
+

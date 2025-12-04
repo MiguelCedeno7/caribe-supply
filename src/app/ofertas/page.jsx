@@ -1,3 +1,4 @@
+"use client";
 export default function Ofertas() {
   return (
     <main className="min-h-screen bg-gray-900 text-white px-6 py-20">

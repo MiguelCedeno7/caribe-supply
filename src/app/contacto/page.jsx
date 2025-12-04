@@ -123,21 +123,7 @@ export default function ContactoPage() {
       )}
 
       {/* ANIMACIÓN */}
-      <style global jsx>{`
-        .animate-fade-in {
-          animation: fadeIn 0.35s ease-out;
-        }
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: scale(0.95);
-          }
-          to {
-            opacity: 1;
-            transform: scale(1);
-          }
-        }
-      `}</style>
+      
       <section className="relative mt-32 flex justify-center px-4">
 
   {/* Fondo degradado sutil */}
