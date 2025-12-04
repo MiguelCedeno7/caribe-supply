@@ -1,44 +1,61 @@
+"use client";
+import Image from "next/image";
+
 export default function Hero() {
   return (
-    <section className="relative w-full bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 text-white py-20 px-6 overflow-hidden">
+    <section className="relative w-full h-[90vh] flex items-center justify-center overflow-hidden">
+      {/* Background image */}
+      <Image
+        src="https://images.unsplash.com/photo-1526318472351-bc6f3f1b1e77"
+        alt="Luxury background"
+        fill
+        priority
+        className="object-cover object-center scale-105"
+      />
 
-      {/* Fondo decorativo con círculos */}
-      <div className="absolute inset-0 opacity-20">
-        <div className="w-72 h-72 bg-white rounded-full blur-3xl absolute top-10 left-10"></div>
-        <div className="w-96 h-96 bg-yellow-300 rounded-full blur-3xl absolute bottom-10 right-10"></div>
-      </div>
+      {/* Dark overlay */}
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]" />
 
-      <div className="relative max-w-6xl mx-auto flex flex-col md:flex-row items-center pt-10">
-        
-        {/* Texto */}
-        <div className="flex-1 text-center md:text-left z-10">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4 leading-tight drop-shadow-lg">
-            🔥 ¡Ofertas Especiales de Temporada!
-          </h1>
+      {/* Gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40" />
 
-          <p className="text-lg md:text-xl mb-6 font-light drop-shadow">
-            Descuentos en artículos del hogar, tecnología y más.  
-            ¡Aprovecha antes de que se agoten!
-          </p>
+      {/* Content */}
+      <div className="relative z-10 text-center px-6 md:px-12 max-w-4xl animate-fade-in">
+        <h1 className="text-white text-4xl md:text-6xl font-extrabold tracking-tight drop-shadow-lg">
+          Eleva Tu Estilo & Tu Hogar
+        </h1>
 
+        <p className="mt-4 text-lg md:text-xl text-gray-200 font-light leading-relaxed drop-shadow-md">
+          Productos seleccionados con elegancia y calidad para transformar tu día a día.
+          Vive la experiencia Caribe Supply.
+        </p>
+
+        <div className="mt-8">
           <a
-            href="/ofertas"
-            className="inline-block bg-white text-red-600 font-semibold px-8 py-3 rounded-xl shadow-lg hover:bg-yellow-300 hover:text-black transition-all duration-300"
+            href="/tienda"
+            className="px-8 py-3 text-lg font-semibold rounded-full backdrop-blur-md bg-white/15 text-white border border-white/30 hover:bg-white/25 transition-all shadow-lg"
           >
-            Ver Ofertas
+            Explorar Tienda
           </a>
         </div>
-
-        {/* Imagen principal */}
-        <div className="flex-1 mt-10 md:mt-0 flex justify-center z-10">
-          <img
-            src="/imagenes/banner.jpeg"
-            alt="Productos CaribeSupply"
-            className="w-72 md:w-96 drop-shadow-2xl animate-bounce"
-          />
-        </div>
-
       </div>
+
+      {/* Smooth fade animation */}
+      <style jsx>{`
+        .animate-fade-in {
+          animation: fadeIn 1.4s ease-out forwards;
+        }
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(15px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
     </section>
   );
 }
