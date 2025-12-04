@@ -3,13 +3,13 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { FiMenu, FiX } from "react-icons/fi";
-import useAuth from "@/hooks/useAuth";
+import { useAuthContext } from "@/context/AuthContext"; // <-- cambiado aquí
 
 export default function Header() {
   const [scroll, setScroll] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const { user, logout } = useAuth();
+  const { user, logout } = useAuthContext(); // <-- y aquí
 
   //Tasa de Cambio
   const [rates, setRates] = useState({
