@@ -13,7 +13,7 @@ const ofertasData = [
     precioOriginal: 1299,
     precioOferta: 899,
     descuento: 31,
-    imagen: "https://images.unsplash.com/photo-1581270141343-fee2d35b2eb8?auto=format&fit=crop&w=800",
+    imagen: "https://yoclaudiomercantil.com.do/wp-content/uploads/2022/08/martillo-p-carpintero-16oz-ingco-hch80816-yoclaudiomercantil.jpg",
     categoria: "Herramientas",
     rating: 4.8,
     vendidos: 120,
@@ -26,7 +26,7 @@ const ofertasData = [
     precioOriginal: 2499,
     precioOferta: 1699,
     descuento: 32,
-    imagen: "https://images.unsplash.com/photo-1572981779307-38b8cabb2407?auto=format&fit=crop&w=800",
+    imagen: "https://ferremix.com.do/cdn/shop/files/TALI-20P2.jpg?v=1754322101",
     categoria: "Eléctricas",
     rating: 4.9,
     vendidos: 89,
@@ -39,7 +39,7 @@ const ofertasData = [
     precioOriginal: 799,
     precioOferta: 499,
     descuento: 38,
-    imagen: "https://images.unsplash.com/photo-1562157873-818bc0726f68?auto=format&fit=crop&w=800",
+    imagen: "https://pimdata.irimo.com/media/sub1037/16a86e98b6c2eb3f.png",
     categoria: "Herramientas",
     rating: 4.7,
     vendidos: 210,
@@ -52,7 +52,7 @@ const ofertasData = [
     precioOriginal: 3299,
     precioOferta: 2499,
     descuento: 24,
-    imagen: "https://images.unsplash.com/photo-1581235720864-0b89c7fe3d8a?auto=format&fit=crop&w=800",
+    imagen: "https://tecindustrialrd.com/web/image/product.product/60951/image_1024",
     categoria: "Eléctricas",
     rating: 4.8,
     vendidos: 45,
@@ -65,7 +65,7 @@ const ofertasData = [
     precioOriginal: 1499,
     precioOferta: 999,
     descuento: 33,
-    imagen: "https://images.unsplash.com/photo-1581092160607-ee22731c8e9e?auto=format&fit=crop&w=800",
+    imagen: "https://ferremix.com.do/cdn/shop/files/CHP-23R_D4.jpg?v=1754324138",
     categoria: "Organización",
     rating: 4.6,
     vendidos: 156,
@@ -78,7 +78,7 @@ const ofertasData = [
     precioOriginal: 1899,
     precioOferta: 1299,
     descuento: 32,
-    imagen: "https://images.unsplash.com/photo-1561731216-c3f4a9d5c250?auto=format&fit=crop&w=800",
+    imagen: "https://tecindustrialrd.com/web/image/product.product/60952/image_1024",
     categoria: "Eléctricas",
     rating: 4.7,
     vendidos: 78,
@@ -87,9 +87,13 @@ const ofertasData = [
   }
 ];
 
+// Imagen fallback en base64 (pequeño placeholder gris)
+const FALLBACK_IMAGE = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Crect fill='%23666' width='300' height='300'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='18' fill='%23999'%3EImagen no disponible%3C/text%3E%3C/svg%3E";
+
 export default function Ofertas() {
   const { agregarAlCarrito, productoEnCarrito } = useCarrito();
   const [feedback, setFeedback] = useState(null);
+  const [imageErrors, setImageErrors] = useState({});
 
   const handleAgregarCarrito = (producto) => {
     agregarAlCarrito({
@@ -103,6 +107,14 @@ export default function Ofertas() {
     // Mostrar feedback
     setFeedback(producto.nombre);
     setTimeout(() => setFeedback(null), 3000);
+  };
+
+  // ✅ Manejo de errores de imagen
+  const handleImageError = (productId) => {
+    setImageErrors(prev => ({
+      ...prev,
+      [productId]: true
+    }));
   };
 
   return (
@@ -139,6 +151,7 @@ export default function Ofertas() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {ofertasData.map((producto) => {
             const yaEnCarrito = productoEnCarrito(producto.id);
+            const imagenFallo = imageErrors[producto.id];
             
             return (
               <div 
@@ -156,12 +169,14 @@ export default function Ofertas() {
                   {producto.tiempoRestante}
                 </div>
                 
-                {/* Imagen del producto */}
+                {/* Imagen del producto con fallback */}
                 <div className="w-full h-56 bg-gradient-to-br from-gray-700 to-gray-900 rounded-xl mb-5 overflow-hidden group-hover:shadow-lg">
                   <img 
-                    src={producto.imagen} 
+                    src={imagenFallo ? FALLBACK_IMAGE : producto.imagen}
                     alt={producto.nombre}
+                    onError={() => handleImageError(producto.id)}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    loading="lazy"
                   />
                 </div>
 
@@ -247,7 +262,6 @@ export default function Ofertas() {
                   <button 
                     onClick={() => {
                       handleAgregarCarrito(producto);
-                      // Aquí podrías redirigir al checkout si quisieras
                     }}
                     className="w-full bg-transparent border-2 border-yellow-500 text-yellow-500 py-3 rounded-xl font-bold hover:bg-yellow-500 hover:text-black transition-all"
                   >
