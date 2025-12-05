@@ -2,14 +2,18 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { FiMenu, FiX } from "react-icons/fi";
-import { useAuthContext } from "@/context/AuthContext"; // <-- cambiado aquí
+import { FiMenu, FiX, FiShoppingCart } from "react-icons/fi";
+import { useAuthContext } from "@/context/AuthContext";
+import { useCarrito } from "@/context/CarritoContext"; // Importamos el contexto del carrito
+import CarritoModal from "@/components/CarritoModal"; // Componente del carrito modal
 
 export default function Header() {
   const [scroll, setScroll] = useState(false);
   const [open, setOpen] = useState(false);
-
-  const { user, logout } = useAuthContext(); // <-- y aquí
+  const [carritoOpen, setCarritoOpen] = useState(false);
+  
+  const { user, logout } = useAuthContext();
+  const { totalItems } = useCarrito(); // Obtenemos el total de items del carrito
 
   //Tasa de Cambio
   const [rates, setRates] = useState({
@@ -20,6 +24,7 @@ export default function Header() {
     jpy: null,
     cad: null,
   });
+
   //Api tasa de cambio
   useEffect(() => {
     fetch("https://open.er-api.com/v6/latest/DOP")
@@ -76,8 +81,20 @@ export default function Header() {
           />
         </div>
 
-        {/* 🔥 PUNTO 4 — LOGIN / USER / LOGOUT (Desktop) */}
+        {/* ICONO DEL CARRITO Y LOGIN */}
         <div className="hidden md:flex items-center gap-4 ml-4">
+          {/* Botón del carrito */}
+          <button 
+            className="relative p-2 hover:bg-gray-100 rounded-lg transition"
+            onClick={() => setCarritoOpen(true)}
+          >
+            <FiShoppingCart className="text-2xl" />
+            {totalItems > 0 && (
+              <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">
+                {totalItems}
+              </span>
+            )}
+          </button>
 
           {!user ? (
             <>
@@ -105,7 +122,6 @@ export default function Header() {
               </button>
             </>
           )}
-
         </div>
 
         {/* MENU MOBILE */}
@@ -130,13 +146,12 @@ export default function Header() {
       {/* MOBILE DROPDOWN */}
       {open && (
         <div className="md:hidden bg-white shadow-lg p-5 flex flex-col gap-4">
-
           <nav className="flex flex-col gap-4 text-lg font-medium">
-            <a href="/" className="hover:text-orange-500">Inicio</a>
-            <a href="/tienda" className="hover:text-orange-500">Tienda</a>
-            <a href="/nosotros" className="hover:text-orange-500">Nosotros</a>
-            <a href="/ofertas" className="hover:text-orange-500">Ofertas</a>
-            <a href="/contacto" className="hover:text-orange-500">Contacto</a>
+            <Link href="/" className="hover:text-orange-500" onClick={() => setOpen(false)}>Inicio</Link>
+            <Link href="/tienda" className="hover:text-orange-500" onClick={() => setOpen(false)}>Tienda</Link>
+            <Link href="/nosotros" className="hover:text-orange-500" onClick={() => setOpen(false)}>Nosotros</Link>
+            <Link href="/ofertas" className="hover:text-orange-500" onClick={() => setOpen(false)}>Ofertas</Link>
+            <Link href="/contacto" className="hover:text-orange-500" onClick={() => setOpen(false)}>Contacto</Link>
           </nav>
 
           <input
@@ -145,15 +160,28 @@ export default function Header() {
             className="border rounded-lg px-4 py-2 w-full"
           />
 
+          {/* Botón del carrito en móvil */}
+          <button 
+            className="flex items-center gap-2 p-3 border rounded-lg hover:bg-gray-50"
+            onClick={() => {
+              setCarritoOpen(true);
+              setOpen(false);
+            }}
+          >
+            <FiShoppingCart className="text-xl" />
+            <span>Carrito ({totalItems})</span>
+          </button>
+
           {/* 🔥 LOGIN / USER / LOGOUT (Mobile) */}
           {!user ? (
             <>
-              <Link href="/login" className="text-orange-600 font-bold">
+              <Link href="/login" className="text-orange-600 font-bold" onClick={() => setOpen(false)}>
                 Iniciar sesión
               </Link>
               <Link
                 href="/register"
                 className="bg-orange-600 text-white px-4 py-2 rounded-lg text-center"
+                onClick={() => setOpen(false)}
               >
                 Registrarse
               </Link>
@@ -165,16 +193,21 @@ export default function Header() {
               </span>
 
               <button
-                onClick={logout}
+                onClick={() => {
+                  logout();
+                  setOpen(false);
+                }}
                 className="text-red-600 font-semibold text-left"
               >
                 Cerrar sesión
               </button>
             </>
           )}
-
         </div>
       )}
+
+      {/* Modal del carrito */}
+      <CarritoModal isOpen={carritoOpen} onClose={() => setCarritoOpen(false)} />
 
     </header>
   );
