@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import products from "@/data/products.json";
 import { useCarrito } from "@/context/CarritoContext"; // Importamos el contexto del carrito
 
@@ -8,35 +8,116 @@ export default function TiendaPage() {
   const [category, setCategory] = useState("Todos");
   const { agregarAlCarrito } = useCarrito(); // Usamos la función del contexto
 
+  // --- Autenticación simple en cliente ---
+  // Guardamos { username } en sessionStorage cuando el usuario "inicia sesión".
+  const [authUser, setAuthUser] = useState(null); // { username } o null
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [loginUserField, setLoginUserField] = useState("");
+  const [loginPassField, setLoginPassField] = useState("");
+  const [pendingAction, setPendingAction] = useState(null); // { type: 'add'|'buy', product }
+
+  useEffect(() => {
+    // Cargar sesión desde sessionStorage al montar
+    const saved = sessionStorage.getItem("caribe_user");
+    if (saved) {
+      try {
+        setAuthUser(JSON.parse(saved));
+      } catch (e) {
+        sessionStorage.removeItem("caribe_user");
+      }
+    }
+  }, []);
+
+  const doLogin = (e) => {
+    e && e.preventDefault();
+    // Validación simple: usuario y contraseña no vacíos
+    if (!loginUserField.trim() || !loginPassField.trim()) {
+      alert("Por favor ingresa usuario y contraseña.");
+      return;
+    }
+
+    // Guardamos usuario en sessionStorage (sólo para sesión de cliente).
+    const userObj = { username: loginUserField.trim() };
+    sessionStorage.setItem("caribe_user", JSON.stringify(userObj));
+    setAuthUser(userObj);
+    setShowLoginModal(false);
+
+    // limpiar campos
+    setLoginPassField("");
+    // Si había una acción pendiente (añadir/comprar), la ejecutamos
+    if (pendingAction) {
+      const { type, product } = pendingAction;
+      setPendingAction(null);
+      if (type === "add") {
+        // espera un tick para asegurarnos que authUser ya esté seteado
+        setTimeout(() => agregarItem(product), 50);
+      } else if (type === "buy") {
+        setTimeout(() => buyNow(product), 50);
+      }
+    }
+  };
+
+  const doLogout = () => {
+    sessionStorage.removeItem("caribe_user");
+    setAuthUser(null);
+    alert("Sesión cerrada.");
+  };
+
+  // ----------------------------------------
+
   const filtered = category === "Todos"
     ? products
     : products.filter((p) => p.category === category);
 
   const categorias = ["Todos", ...new Set(products.map(p => p.category))];
 
-  // Función para manejar el clic en "Agregar al carrito"
-  const handleAgregarCarrito = (product) => {
+  // Función que realmente agrega al carrito (llama al contexto)
+  const agregarItem = (product) => {
+    // Aseguramos transformar nombre de campos si tu contexto espera otros nombres
     agregarAlCarrito({
       id: product.id,
       nombre: product.name,
       precio: parseFloat(product.price), // Asegurar que sea número
       imagen: product.image
     });
-    
+
     // Opcional: Mostrar feedback al usuario
     mostrarFeedback(product.name);
   };
 
-  // Función para mostrar feedback temporal
+  // Intercepta el clic: si no está autenticado, pide login; si sí, añade
+  const handleAgregarCarrito = (product) => {
+    if (!authUser) {
+      // Guardamos la acción pendiente y abrimos modal de login
+      setPendingAction({ type: "add", product });
+      setShowLoginModal(true);
+      return;
+    }
+    agregarItem(product);
+  };
+
+  // Comprar ahora: similar, pero podrías redirigir al checkout real
+  const buyNow = (product) => {
+    if (!authUser) {
+      setPendingAction({ type: "buy", product });
+      setShowLoginModal(true);
+      return;
+    }
+
+    // Si estás autenticado, realizamos la acción de "comprar ahora".
+    // Aquí sólo vamos a agregar al carrito y podrías redirigir al checkout.
+    agregarItem(product);
+    // Ejemplo simple: redirigir al carrito/checkout si tienes ruta
+    // window.location.href = "/carrito"; // descomenta si existe ruta
+    alert(`Iniciando compra de "${product.name}" (simulado).`);
+  };
+
+  // Función para mostrar feedback temporal (igual que tu versión)
   const mostrarFeedback = (nombreProducto) => {
-    // Crear elemento de feedback
     const feedback = document.createElement("div");
     feedback.className = "fixed top-20 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 animate-fade-in-out";
     feedback.textContent = `✅ ${nombreProducto} agregado al carrito`;
-    
     document.body.appendChild(feedback);
-    
-    // Remover después de 3 segundos
     setTimeout(() => {
       feedback.remove();
     }, 3000);
@@ -45,9 +126,21 @@ export default function TiendaPage() {
   return (
     <main className="max-w-7xl mx-auto px-6 py-10 pt-28"> {/* Añadido pt-28 para espacio del header fijo */}
 
-      <h1 className="text-4xl font-bold mb-8 text-center text-gray-900 p-14">
-         Nuestra Tienda
-      </h1>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-4xl font-bold text-gray-900 p-4">Nuestra Tienda</h1>
+
+        {/* Indicador de sesión sencillo */}
+        <div className="flex items-center gap-4">
+          {authUser ? (
+            <>
+              <div className="text-sm text-gray-700">Conectado como <span className="font-semibold">{authUser.username}</span></div>
+              <button onClick={doLogout} className="bg-red-600 text-white px-3 py-2 rounded-lg text-sm hover:bg-red-700">Cerrar sesión</button>
+            </>
+          ) : (
+            <button onClick={() => setShowLoginModal(true)} className="bg-blue-600 text-white px-3 py-2 rounded-lg text-sm hover:bg-blue-700">Iniciar sesión</button>
+          )}
+        </div>
+      </div>
 
       {/* FILTROS */}
       <div className="flex flex-wrap justify-center gap-4 mb-10">
@@ -87,6 +180,7 @@ export default function TiendaPage() {
                 src={product.image}
                 alt={product.name}
                 className="w-full h-56 object-contain mb-4 transition-transform duration-300 group-hover:scale-105"
+                onError={(e) => { e.currentTarget.src = "/fallback.jpg"; }} // fallback si la imagen falla
               />
               
               {/* ETIQUETA DE CATEGORÍA */}
@@ -135,10 +229,7 @@ export default function TiendaPage() {
 
             {/* BOTÓN RÁPIDO DE COMPRA (opcional) */}
             <button 
-              onClick={() => {
-                handleAgregarCarrito(product);
-                // Aquí podrías redirigir directamente al checkout si quisieras
-              }}
+              onClick={() => buyNow(product)}
               className="w-full mt-3 border border-red-600 text-red-600 py-2 rounded-xl font-semibold hover:bg-red-50 transition-all text-sm"
             >
               Comprar ahora
@@ -160,6 +251,44 @@ export default function TiendaPage() {
           >
             Ver todos los productos
           </button>
+        </div>
+      )}
+
+      {/* --- Modal de Login (simple) --- */}
+      {showLoginModal && (
+        <div className="fixed inset-0 z-60 flex items-center justify-center bg-black/50 p-4">
+          <div className="bg-white rounded-xl max-w-md w-full p-6 shadow-xl">
+            <h3 className="text-xl font-bold mb-4">Inicia sesión para continuar</h3>
+            <form onSubmit={doLogin} className="flex flex-col gap-3">
+              <label className="text-sm text-gray-700">
+                Usuario
+                <input
+                  value={loginUserField}
+                  onChange={(e) => setLoginUserField(e.target.value)}
+                  className="mt-1 w-full border rounded-md px-3 py-2"
+                />
+              </label>
+              <label className="text-sm text-gray-700">
+                Contraseña
+                <input
+                  type="password"
+                  value={loginPassField}
+                  onChange={(e) => setLoginPassField(e.target.value)}
+                  className="mt-1 w-full border rounded-md px-3 py-2"
+                />
+              </label>
+
+              <div className="flex items-center justify-between mt-4">
+                <div className="text-xs text-gray-500">
+                  (Este login es local en el navegador; para producción debes usar autenticación en el servidor.)
+                </div>
+                <div className="flex gap-2">
+                  <button type="button" onClick={() => { setShowLoginModal(false); setPendingAction(null); }} className="px-4 py-2 rounded-lg border">Cancelar</button>
+                  <button type="submit" className="px-4 py-2 rounded-lg bg-red-600 text-white">Iniciar sesión</button>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
       )}
 
