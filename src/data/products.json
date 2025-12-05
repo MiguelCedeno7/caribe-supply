@@ -3,140 +3,140 @@
     "id": 1,
     "name": "Cafetera Premium",
     "price": 45,
-    "image": "/imagenes/banner.jpeg",
+    "image": "/imagenes/CafeteraPremium.png",
     "category": "Microempresas"
   },
   {
     "id": 2,
     "name": "Auriculares Bluetooth",
     "price": 25,
-    "image": "/imagenes/banner.jpeg",
+    "image": "/imagenes/AuricularesBluetooth.png",
     "category": "Productos locales"
   },
   {
     "id": 3,
     "name": "Licuadora 3 velocidades",
     "price": 38,
-    "image": "/imagenes/microempresa.webp",
+    "image": "/imagenes/Licuadora.png",
     "category": "Microempresas"
   },
   {
     "id": 4,
     "name": "Smartwatch Deportivo",
     "price": 55,
-    "image": "",
+    "image": "/imagenes/Smartwatch.png",
     "category": "Productos locales"
   },
   {
     "id": 5,
     "name": "Sartén Antiadherente",
     "price": 18,
-    "image": "",
+    "image": "/imagenes/SartenAntiadherente.jpeg",
     "category": "Artesania"
   },
   {
     "id": 6,
     "name": "Plancha de Vapor Pro",
     "price": 30,
-    "image": "/imagenes/microempresa.webp",
+    "image": "/imagenes/PlanchaVaporPro.jpeg",
     "category": "Microempresas"
   },
   {
     "id": 7,
     "name": "Set de Cucharones de Silicona",
     "price": 15,
-    "image": "",
+    "image": "/imagenes/SetCucharonesSilicona.jpeg",
     "category": "Artesania"
   },
   {
     "id": 8,
     "name": "Audífonos Gamer RGB",
     "price": 49,
-    "image": "",
+    "image": "/imagenes/AudífonosGamerRGB.jpeg",
     "category": "Productos locales"
   },
   {
     "id": 9,
     "name": "Batidora de Mano",
     "price": 22,
-    "image": "https://i.imgur.com/TtOnA2o.png",
+    "image": "/imagenes/BatidoraMano.jpeg",
     "category": "Artesania"
   },
   {
     "id": 10,
     "name": "Cámara de Seguridad WiFi",
     "price": 65,
-    "image": "https://i.imgur.com/AbEogdJ.png",
+    "image": "/imagenes/CamaraSeguridadWiFi.jpeg",
     "category": "Productos locales"
   },
   {
     "id": 11,
     "name": "Set de Toallas Suaves",
     "price": 28,
-    "image": "/imagenes/microempresa.webp",
+    "image": "/imagenes/SetToallasSuaves.jpeg",
     "category": "Microempresas"
   },
   {
     "id": 12,
     "name": "Cuchillos de Artesania Premium",
     "price": 35,
-    "image": "https://i.imgur.com/RhrCvzk.png",
+    "image": "/imagenes/CuchillosArtesaniaPremium.webp",
     "category": "Artesania"
   },
   {
     "id": 13,
     "name": "Reloj Inteligente Fitness",
     "price": 42,
-    "image": "https://i.imgur.com/jg5pdi5.png",
+    "image": "/imagenes/RelojInteligenteFitness.jpeg",
     "category": "Productos locales"
   },
   {
     "id": 14,
     "name": "Ventilador de Escritorio USB",
     "price": 12,
-    "image": "/imagenes/microempresa.webp",
+    "image": "/imagenes/VentiladorEscritorioUSB.jpeg",
     "category": "Microempresas"
   },
   {
     "id": 15,
     "name": "Termo Acero Inoxidable",
     "price": 19,
-    "image": "",
+    "image": "/imagenes/TermoAceroInoxidable.jpeg",
     "category": "Artesania"
   },
   {
     "id": 16,
     "name": "Mini Bocina Bluetooth",
     "price": 27,
-    "image": "https://i.imgur.com/0tFtyiM.png",
+    "image": "/imagenes/MiniBocinaBluetooth.jpg",
     "category": "Productos locales"
   },
   {
     "id": 17,
     "name": "Cortina Blackout",
     "price": 34,
-    "image": "https://i.imgur.com/lBP7EXQ.png",
+    "image": "/imagenes/CortinaBlackout.jpeg",
     "category": "Microempresas"
   },
   {
     "id": 18,
     "name": "Freidora de Aire 4L",
     "price": 78,
-    "image": "https://i.imgur.com/XLWSPTf.png",
+    "image": "/imagenes/FreidoraAire4L.jpeg",
     "category": "Artesania"
   },
   {
     "id": 19,
     "name": "Cargador Rápido USB-C",
     "price": 14,
-    "image": "https://i.imgur.com/CRUiNRU.png",
+    "image": "/imagenes/CargadorUSB-C.jpeg",
     "category": "Productos locales"
   },
   {
     "id": 20,
     "name": "Juego de Sábanas Premium",
     "price": 39,
-    "image": "https://i.imgur.com/bOoBkqQ.png",
+    "image": "/imagenes/JuegoSabanasPremium.jpeg",
     "category": "Microempresas"
   }
 ]
