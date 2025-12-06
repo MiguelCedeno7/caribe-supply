@@ -79,6 +79,7 @@ export default function Header({ initialColor = "dark" }) {
           <Link href="/nosotros">Nosotros</Link>
           <Link href="/ofertas">Ofertas</Link>
           <Link href="/contacto">Contacto</Link>
+          <Link href="/soporte">Soporte</Link>
         </nav>
 
         {/* BUSCADOR */}
