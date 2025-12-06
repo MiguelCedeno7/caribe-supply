@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import products from "@/data/products.json";
+import Header from "@/components/Header";
 import { useCarrito } from "@/context/CarritoContext"; // Importamos el contexto del carrito
 
 export default function TiendaPage() {
@@ -43,7 +44,10 @@ export default function TiendaPage() {
   };
 
   return (
+    <>
+      <Header initialColor="light"  /> 
     <main className="max-w-7xl mx-auto px-6 py-10 pt-28"> {/* Añadido pt-28 para espacio del header fijo */}
+
 
       <h1 className="text-4xl font-bold mb-8 text-center text-gray-900 p-14">
          Nuestra Tienda
@@ -183,5 +187,6 @@ export default function TiendaPage() {
       `}</style>
 
     </main>
+    </>
   );
 }

@@ -6,7 +6,7 @@ export default function Hero() {
     <section className="relative w-full h-[90vh] flex items-center justify-center overflow-hidden">
       {/* Background image */}
       <Image
-        src="https://images.unsplash.com/photo-1526318472351-bc6f3f1b1e77"
+        src="/imagenes/banner-home.jpg"
         alt="Luxury background"
         fill
         priority

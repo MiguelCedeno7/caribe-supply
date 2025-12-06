@@ -1,5 +1,7 @@
 "use client";
 import { useState } from "react";
+import Header from "@/components/Header";
+
 
 export default function ContactoPage() {
   const [showModal, setShowModal] = useState(false);
@@ -27,6 +29,8 @@ export default function ContactoPage() {
   }
 
   return (
+    <>
+    <Header initialColor="light" />
     <div className="min-h-screen bg-white pt-20 px-6 pb-14 flex flex-col items-center">
 
       {/* TÍTULO */}
@@ -182,7 +186,7 @@ export default function ContactoPage() {
 </section>
 
     </div>
-    
+    </>
   );
   
 }

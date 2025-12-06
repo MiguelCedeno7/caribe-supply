@@ -7,7 +7,8 @@ import { useAuthContext } from "@/context/AuthContext";
 import { useCarrito } from "@/context/CarritoContext";
 import CarritoModal from "@/components/CarritoModal";
 
-export default function Header() {
+
+export default function Header({ initialColor = "dark" }) {
   const [scroll, setScroll] = useState(false);
   const [open, setOpen] = useState(false);
   const [carritoOpen, setCarritoOpen] = useState(false);
@@ -54,20 +55,25 @@ export default function Header() {
 
   return (
     <header
-      className={`
-        fixed top-0 left-0 w-full z-50 transition-all duration-300 
-        ${scroll ? "bg-white shadow-md" : "bg-transparent"}
-      `}
-    >
+  className={`
+    fixed top-0 left-0 w-full z-50 transition-all duration-300
+    ${scroll 
+      ? "bg-white shadow-md text-black" 
+      : initialColor === "dark" 
+        ? "text-white" 
+        : "text-black"
+    }
+  `}
+>
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
 
         {/* LOGO */}
-        <div className="text-2xl font-bold">
+        <div className="text-2xl font-bold ">
           <Link href="/">CaribeSupply</Link>
         </div>
 
         {/* MENU (Desktop) */}
-        <nav className="hidden md:flex space-x-8 font-medium">
+        <nav className="hidden md:flex space-x-8 font-medium ">
           <Link href="/">Inicio</Link>
           <Link href="/tienda">Tienda</Link>
           <Link href="/nosotros">Nosotros</Link>
